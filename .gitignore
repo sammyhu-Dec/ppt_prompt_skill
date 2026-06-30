@@ -1,0 +1,17 @@
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+.DS_Store
+
+# Generated outputs and web upload cache
+output/*
+!output/.gitkeep
+input/uploads/
+
+# Keep only the public lightweight demo deck.
+input/*.pptx
+!input/demo.pptx
+!input/.gitkeep

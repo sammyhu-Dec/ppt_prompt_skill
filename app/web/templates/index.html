@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PPT Prompt Skill</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">P</div>
+          <div>
+            <h1>PPT Prompt Skill</h1>
+            <p id="statusText">Ready</p>
+          </div>
+        </div>
+
+        <form id="uploadForm" class="panel upload-panel">
+          <label class="field-label" for="pptFile">PPTX</label>
+          <input id="pptFile" name="ppt" type="file" accept=".pptx" />
+
+          <label class="field-label" for="providerSelect">Provider</label>
+          <select id="providerSelect" name="provider">
+            <option value="mock">mock</option>
+            <option value="openai">openai</option>
+          </select>
+
+          <label class="field-label" for="runName">Output</label>
+          <input id="runName" name="run_name" type="text" placeholder="run name" />
+
+          <button class="primary-button" type="submit">Run Pipeline</button>
+
+          <div class="progress-card" id="progressCard" aria-live="polite">
+            <div class="progress-topline">
+              <span id="progressLabel">Queued</span>
+              <strong id="progressPercent">0%</strong>
+            </div>
+            <div class="progress-track">
+              <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <ol class="step-list" id="stepList">
+              <li data-step="extract">Extract</li>
+              <li data-step="psd">PSD</li>
+              <li data-step="story_plan">Story Plan</li>
+              <li data-step="storyboard">Storyboard</li>
+              <li data-step="prompts">Prompts</li>
+            </ol>
+          </div>
+        </form>
+
+        <section class="panel runs-panel">
+          <div class="panel-heading">
+            <h2>Runs</h2>
+            <button id="refreshRuns" class="icon-button" type="button" title="Refresh">↻</button>
+          </div>
+          <div id="runsList" class="runs-list"></div>
+        </section>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Current Run</p>
+            <h2 id="currentRunTitle">No run selected</h2>
+          </div>
+          <div class="summary-strip">
+            <div><span id="slideCount">0</span><small>Slides</small></div>
+            <div><span id="segmentCount">0</span><small>Segments</small></div>
+            <div><span id="sceneCount">0</span><small>Scenes</small></div>
+            <div><span id="promptCount">0</span><small>Prompts</small></div>
+          </div>
+        </header>
+
+        <nav class="tabs" aria-label="Result tabs">
+          <button class="tab active" data-tab="extracted">Extracted</button>
+          <button class="tab" data-tab="psd">PSD</button>
+          <button class="tab" data-tab="story_plan">Story Plan</button>
+          <button class="tab" data-tab="storyboard">Storyboard</button>
+          <button class="tab" data-tab="video_prompts">Prompts JSON</button>
+          <button class="tab" data-tab="video_prompts_md">Prompts MD</button>
+        </nav>
+
+        <section class="editor-grid">
+          <div class="editor-panel">
+            <div class="editor-toolbar">
+              <div>
+                <p class="eyebrow">Viewer</p>
+                <h3 id="editorTitle">Extracted</h3>
+              </div>
+              <div class="toolbar-actions">
+                <button id="formatJson" class="secondary-button" type="button">Format</button>
+                <button id="saveStoryPlan" class="secondary-button" type="button">Save Story Plan</button>
+              </div>
+            </div>
+            <textarea id="jsonEditor" spellcheck="false"></textarea>
+          </div>
+
+          <aside class="export-panel">
+            <div class="export-header">
+              <p class="eyebrow">Export</p>
+              <h3>Video Prompt</h3>
+            </div>
+            <div class="export-actions">
+              <button id="copyMarkdown" class="secondary-button" type="button">Copy MD</button>
+              <button id="downloadMarkdown" class="secondary-button" type="button">Download MD</button>
+              <button id="downloadJson" class="secondary-button" type="button">Download JSON</button>
+            </div>
+            <pre id="promptPreview"></pre>
+          </aside>
+        </section>
+      </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
